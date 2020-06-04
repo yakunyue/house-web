@@ -2,7 +2,7 @@
     <div class="content-page">
         <div class="content-nav">
             <el-breadcrumb class="breadcrumb" separator="/">
-                <el-breadcrumb-item>后台主页</el-breadcrumb-item>
+                <el-breadcrumb-item>房价概览</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="content-main clearfix">
@@ -10,19 +10,19 @@
                 <el-card class="box-card card-red">
                     <router-link class="link-color" :to="{ path: '/dashboard/order' }">
                         <h1>{{infoData.orderToDelivery}}</h1>
-                        <div class="text item">待发货订单</div>
+                        <div class="text item">在售房源</div>
                     </router-link>
                 </el-card>
                 <el-card class="box-card card-green">
                     <router-link class="link-color" :to="{ path: '/dashboard/goods' }">
                         <h1>{{infoData.goodsOnsale}}</h1>
-                        <div class="text item">上架中的商品</div>
+                        <div class="text item">挂牌均价</div>
                     </router-link>
                 </el-card>
                 <el-card class="box-card card-black">
                     <router-link class="link-color"  :to="{ path: '/dashboard/user' }">
                         <h1>{{infoData.user}}</h1>
-                        <div class="text item">总用户数</div>
+                        <div class="text item">上月成交</div>
                     </router-link>
                 </el-card>
             </div>
