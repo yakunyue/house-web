@@ -2,10 +2,27 @@
     <div class="content-page">
         <div class="content-nav">
             <el-breadcrumb class="breadcrumb" separator="/">
-                <el-breadcrumb-item>房价概览</el-breadcrumb-item>
+                <el-breadcrumb-item>当前位置：{{cityName}} / {{countyName}}
+                    <span v-if="streetName!==''"> / {{streetName}}</span>
+                </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="content-main clearfix">
+
+            <div class="header">
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        <el-cascader :props="props" placeholder="点此却换不同区域"
+                                     :clearable="true" @change="handleChange"
+                                     @expand-change="handleExpandChange"
+                        ref="refCascader"></el-cascader>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-button icon="el-icon-search" round @click="handleSearch">查询</el-button>
+                    </el-col>
+                </el-row>
+            </div>
+
             <div class="header clearfix">
                 <el-card class="box-card card-red">
                     <router-link class="link-color" :to="{ path: '/dashboard/order' }">
@@ -142,9 +159,61 @@
 
 <script>
     import Countdown from './Common/Countdown';
+    import {getRequest} from "../utils/api";
     export default {
         data() {
             return {
+                props: {
+                    lazy: true,
+                    lazyLoad(node, resolve) {
+                        const {level, value} = node;
+                        let nodes = [];
+                        if (level === 0) {
+                            getRequest("/county/queryInitCityList", {}).then(res => {
+                                if (res.code == 200) {
+                                    nodes = res.data.map(item => ({
+                                        value: item.code,
+                                        label: item.name,
+                                    }));
+                                }
+                                resolve(nodes);
+                            })
+                        } else if (level === 1) {
+                            getRequest("county/queryInitCountyList", {cityCode: value}).then(res => {
+                                if (res.code == 200) {
+                                    nodes = res.data.map(item => ({
+                                        value: item.code,
+                                        label: item.name,
+                                    }));
+                                    this.countyList = res.data
+                                }
+                                resolve(nodes);
+                            })
+                        } else if (level === 2) {
+                            getRequest("county/queryInitStreetList", {countyCode: value}).then(res => {
+                                if (res.code == 200) {
+                                    nodes = res.data.map(item => ({
+                                        value: item.code,
+                                        label: item.name,
+                                        leaf: true
+                                    }));
+                                    this.streetList = res.data
+                                }
+                                resolve(nodes);
+                            })
+                        }
+                    }
+                },
+                cityList:['1'],
+                countyList:[],
+                streetList:[],
+                cityName:"北京",
+                countyName:'大兴',
+                streetName:'',
+                cityCode:'bj',
+                countyCode:'daxing',
+                streetCode:'',
+
                 dialogVisible: false,
                 infoData: {},
                 activeName2: 'first',
@@ -162,6 +231,31 @@
             }
         },
         methods: {
+            handleChange(value) {
+                console.log('+++++')
+                console.log(value)
+                this.streetCode = value[2]
+                // this.getIndexData()
+                console.log(this.$refs["refCascader"].getCheckedNodes())
+            },
+            handleExpandChange(arr) {
+                console.log('-----')
+                console.log(arr)
+                // console.log(this.cityList)
+                if (arr.length === 1){
+                    this.cityCode = arr[0]
+
+                }
+                if (arr.length === 2) {
+                    this.countyCode = arr[1]
+                    // this.countyName = this.countyList.filter(c => c.code === this.countyCode).indexOf(0).name
+                    // this.getIndexData()
+                }
+                console.log(this.$refs["refCascader"].getCheckedNodes())
+            },
+            handleSearch(){
+                console.log(this.cityList)
+            },
             callback(){
                 this.resetVision = false;
             },
