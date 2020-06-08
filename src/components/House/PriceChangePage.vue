@@ -143,7 +143,7 @@
             this.tableData = res.data.records;
             this.total = res.data.total;
           } else {
-            this.$message({type: 'error', message: '获取用户列表失败!'});
+            this.$message({type: 'error', message: '获取城市列表失败!'});
           }
         })
       }

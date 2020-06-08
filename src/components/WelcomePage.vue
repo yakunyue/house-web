@@ -12,10 +12,36 @@
             <div class="header">
                 <el-row :gutter="20">
                     <el-col :span="4">
-                        <el-cascader :props="props" placeholder="点此却换不同区域"
-                                     :clearable="true" @change="handleChange"
-                                     @expand-change="handleExpandChange"
-                        ref="refCascader"></el-cascader>
+                        <el-select placeholder="请选择城市" @change="onCityChange">
+                            <el-option
+                                    v-for="item in cityList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-select placeholder="请选择区县" @change="onCountyChange"
+                                   :disabled="countyCanSelect">
+                            <el-option
+                                    v-for="item in countyList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-select placeholder="请选择街区" @change="onStreetChange"
+                                   :disabled="streetCanSelect">
+                            <el-option
+                                    v-for="item in streetList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
                     </el-col>
                     <el-col :span="4">
                         <el-button icon="el-icon-search" round @click="handleSearch">查询</el-button>
@@ -37,7 +63,7 @@
                     </router-link>
                 </el-card>
                 <el-card class="box-card card-black">
-                    <router-link class="link-color"  :to="{ path: '/dashboard/user' }">
+                    <router-link class="link-color" :to="{ path: '/dashboard/user' }">
                         <h1>{{infoData.user}}</h1>
                         <div class="text item">上月成交</div>
                     </router-link>
@@ -79,7 +105,9 @@
                                     <el-table-column prop="last_login_time" label="最近登录" width="170">
                                     </el-table-column>
                                 </el-table>
-                                <el-button class="float-right" slot="reference" size="mini" type="primary" @click="seeClick">查看</el-button>
+                                <el-button class="float-right" slot="reference" size="mini" type="primary"
+                                           @click="seeClick">查看
+                                </el-button>
                             </el-popover>
                         </div>
                         <div class="text item">
@@ -160,106 +188,112 @@
 <script>
     import Countdown from './Common/Countdown';
     import {getRequest} from "../utils/api";
+
     export default {
         data() {
             return {
-                props: {
-                    lazy: true,
-                    lazyLoad(node, resolve) {
-                        const {level, value} = node;
-                        let nodes = [];
-                        if (level === 0) {
-                            getRequest("/county/queryInitCityList", {}).then(res => {
-                                if (res.code == 200) {
-                                    nodes = res.data.map(item => ({
-                                        value: item.code,
-                                        label: item.name,
-                                    }));
-                                }
-                                resolve(nodes);
-                            })
-                        } else if (level === 1) {
-                            getRequest("county/queryInitCountyList", {cityCode: value}).then(res => {
-                                if (res.code == 200) {
-                                    nodes = res.data.map(item => ({
-                                        value: item.code,
-                                        label: item.name,
-                                    }));
-                                    this.countyList = res.data
-                                }
-                                resolve(nodes);
-                            })
-                        } else if (level === 2) {
-                            getRequest("county/queryInitStreetList", {countyCode: value}).then(res => {
-                                if (res.code == 200) {
-                                    nodes = res.data.map(item => ({
-                                        value: item.code,
-                                        label: item.name,
-                                        leaf: true
-                                    }));
-                                    this.streetList = res.data
-                                }
-                                resolve(nodes);
-                            })
-                        }
-                    }
-                },
-                cityList:['1'],
-                countyList:[],
-                streetList:[],
-                cityName:"北京",
-                countyName:'大兴',
-                streetName:'',
-                cityCode:'bj',
-                countyCode:'daxing',
-                streetCode:'',
-
+                cityList: [],
+                countyList: [],
+                streetList: [],
+                cityName: "北京",
+                countyName: '大兴',
+                streetName: '',
+                cityCode: 'bj',
+                countyCode: 'daxing',
+                streetCode: '',
+                countyCanSelect: false,
+                streetCanSelect: false,
                 dialogVisible: false,
                 infoData: {},
                 activeName2: 'first',
-                userTab:'first',
+                userTab: 'first',
                 mainInfo: {},
                 loginInfo: null,
                 username: '',
-                label:'',
-                userData:[],
-                newData:[],
-                oldData:[],
-                related_pop:false,
-                resetVision:true,
+                label: '',
+                userData: [],
+                newData: [],
+                oldData: [],
+                related_pop: false,
+                resetVision: true,
 
             }
         },
         methods: {
-            handleChange(value) {
+            getCityList() {
+                getRequest("/county/queryInitCityList", {}).then(res => {
+                    if (res.code == 200) {
+                        this.cityList = res.data.map(item => ({
+                            value: item.code,
+                            label: item.name,
+                        }));
+                    } else {
+                        this.$message({type: 'error', message: '获取城市列表失败!'});
+                    }
+                })
+            },
+            getCountyList(value) {
+                if (value) {
+                    getRequest("county/queryInitCountyList", {cityCode: value}).then(res => {
+                        if (res.code == 200) {
+                            this.countyList = res.data.map(item => ({
+                                value: item.code,
+                                label: item.name,
+                            }));
+                        } else {
+                            this.$message({type: 'error', message: '获取区县列表失败!'});
+                        }
+                    })
+                } else {
+                    this.$message({type: 'error', message: '请先选择城市!'});
+                }
+            },
+            getStreetList(value) {
+                if (value) {
+                    getRequest("county/queryInitStreetList", {countyCode: value}).then(res => {
+                        if (res.code == 200) {
+                            nodes = res.data.map(item => ({
+                                value: item.code,
+                                label: item.name,
+                                leaf: true
+                            }));
+                            this.streetList = res.data
+                        } else {
+                            this.$message({type: 'error', message: '获取街区列表失败!'});
+                        }
+                    })
+                } else {
+                    this.$message({type: 'error', message: '请先选择区县!'});
+                }
+            },
+            onCityChange(value) {
                 console.log('+++++')
                 console.log(value)
-                this.streetCode = value[2]
-                // this.getIndexData()
-                console.log(this.$refs["refCascader"].getCheckedNodes())
+                this.cityCode = value
+                this.countyCanSelect = true
+                this.countyCode = ''
+                this.getCountyList(value)
             },
-            handleExpandChange(arr) {
-                console.log('-----')
-                console.log(arr)
-                // console.log(this.cityList)
-                if (arr.length === 1){
-                    this.cityCode = arr[0]
-
-                }
-                if (arr.length === 2) {
-                    this.countyCode = arr[1]
-                    // this.countyName = this.countyList.filter(c => c.code === this.countyCode).indexOf(0).name
-                    // this.getIndexData()
-                }
-                console.log(this.$refs["refCascader"].getCheckedNodes())
+            onCountyChange(value) {
+                console.log('----')
+                console.log(value)
+                this.countyCode = value
+                this.streetCanSelect = true
+                this.streetCode = ''
+                this.getStreetList(value)
             },
-            handleSearch(){
-                console.log(this.cityList)
+            onStreetChange(value) {
+                console.log('====')
+                console.log(value)
+                this.streetCode = value
             },
-            callback(){
+            handleSearch() {
+                console.log(this.cityCode + '|' + this.countyCode + '|' + this.streetCode)
+            },
+            callback() {
                 this.resetVision = false;
             },
-            seeClick(){
+            seeClick() {
                 console.log('????');
             },
             getInfo() {
@@ -275,14 +309,13 @@
                 console.log('pindex:' + pindex);
                 this.getMainInfo(pindex);
             },
-            userTabClick(tab, event){
+            userTabClick(tab, event) {
                 let pindex = tab._data.index;
                 console.log(pindex);
-                if(pindex == 0){
+                if (pindex == 0) {
                     this.userData = this.newData;
                     console.log(this.userData);
-                }
-                else{
+                } else {
                     this.userData = this.oldData;
                     console.log(this.userData);
                 }
@@ -305,12 +338,13 @@
             Countdown
         },
         mounted() {
-            this.getInfo();
-            this.getMainInfo(0);
-            if(!this.loginInfo){
-                this.loginInfo = JSON.parse(window.localStorage.getItem('userInfo') || null);
-                this.username = this.loginInfo.username;
-            }
+            // this.getInfo();
+            // this.getMainInfo(0);
+            // if(!this.loginInfo){
+            //     this.loginInfo = JSON.parse(window.localStorage.getItem('userInfo') || null);
+            //     this.username = this.loginInfo.username;
+            // }
+            this.getCityList()
         },
 
         filters: {
@@ -323,7 +357,7 @@
 </script>
 
 <style scoped>
-    .notice{
+    .notice {
         width: 100%;
         height: 60px;
         padding: 30px;
@@ -338,7 +372,8 @@
         justify-content: space-between;
         align-items: center;
     }
-    .github{
+
+    .github {
         width: 100%;
         height: 60px;
         padding: 30px;
@@ -353,21 +388,26 @@
         justify-content: flex-start;
         align-items: center;
     }
-    .notice .r{
+
+    .notice .r {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .github a{
+
+    .github a {
         margin-right: 20px;
     }
-    .count{
+
+    .count {
         background: #fff;
         padding: 10px;
     }
-    .float-right{
-        float:right;
+
+    .float-right {
+        float: right;
     }
+
     .tips {
         color: #8c939d;
         font-size: 13px;
@@ -390,13 +430,15 @@
     .clearfix:after {
         clear: both
     }
-    .tab-content{
+
+    .tab-content {
         margin-bottom: 20px;
     }
+
     .box-card {
         width: 32%;
         float: left;
-        margin:0 20px 14px 0;
+        margin: 0 20px 14px 0;
     }
 
     .box-card:last-child {
@@ -404,7 +446,7 @@
     }
 
 
-    .box-card .link-color{
+    .box-card .link-color {
         color: #fff;
     }
 
@@ -442,34 +484,38 @@
         border: none;
         color: #fff;
     }
-    .card-green{
+
+    .card-green {
         background: #11b95c;
-        border:none;
+        border: none;
         color: #fff;
     }
-    .card-black{
+
+    .card-black {
         background: #1f2d3d;
-        border:none;
+        border: none;
         color: #fff;
     }
-    .card-gray{
+
+    .card-gray {
         background: #d1dbe5;
-        border:none;
+        border: none;
 
     }
-    .card-gray a{
+
+    .card-gray a {
         color: #1f2d3d;
     }
-    .card-yellow{
+
+    .card-yellow {
         background: #f8dd66;
-        border:none;
+        border: none;
         color: #111111;
     }
 
-     .card-yellow .link-color{
+    .card-yellow .link-color {
         color: #111111;
     }
-
 
 
 </style>

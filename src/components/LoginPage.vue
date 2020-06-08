@@ -5,7 +5,7 @@
                 <img src="static/images/loading2.gif"/>
             </div>
             <div class="body">
-                <p class="tips">海风小店</p>
+                <p class="tips">小链家</p>
                 <el-form ref="form" :model="form" :rules="rules" label-position="top">
                     <el-form-item label="" prop="username">
                         <el-input v-model="form.username" placeholder="用户名"></el-input>
