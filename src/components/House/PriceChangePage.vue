@@ -96,21 +96,18 @@
           columns: ["yearMonth", "listPriceAvg", "dealPriceAvg", "dealNum"],
           rows: []
         },
-        countyCode: 'guan',
+        cityCode:'bj',
+        countyCode: '',
         streetCode: '',
         communityCode: ''
       }
     },
     methods: {
       handleChange(value) {
-        console.log('+++++')
-        console.log(value)
         this.streetCode = value[2]
         this.getList()
       },
       handleExpandChange(arr) {
-        console.log('-----')
-        console.log(arr)
         if (arr.length === 2) {
           this.countyCode = arr[1]
           this.getList()
@@ -119,31 +116,17 @@
       getList() {
         getRequest('/chart/priceChange',
           {
+            cityCode:this.cityCode,
             countyCode: this.countyCode,
             streetCode: this.streetCode,
-            communityCode: this.communityCode
+            communityCode: this.communityCode,
+            fromDate:'2008-01-01'
           }
         ).then((res) => {
           if (res.code === 200) {
             this.chartData.rows = res.data;
           } else {
             this.$message({type: 'error', message: '查询价格数据失败！！！'});
-          }
-        })
-      },
-      getInitRecord() {
-        getRequest('/county/queryInitCityList',
-          {
-            pageIndex: this.pageIndex,
-            pageSize: this.pageSize,
-            nickname: this.filterForm.nickname
-          }
-        ).then((res) => {
-          if (res.code === 200) {
-            this.tableData = res.data.records;
-            this.total = res.data.total;
-          } else {
-            this.$message({type: 'error', message: '获取城市列表失败!'});
           }
         })
       }

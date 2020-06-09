@@ -59,6 +59,7 @@
   .filter-box {
     height: auto;
     overflow: hidden;
+    margin-bottom: 30px;
   }
 
   .page-box {
