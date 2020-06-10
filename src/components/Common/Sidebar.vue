@@ -63,6 +63,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          sessionStorage.clear()
           localStorage.clear();
           this.$router.replace({name: 'login'});
         });
