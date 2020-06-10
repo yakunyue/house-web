@@ -48,20 +48,20 @@
       <div class="header clearfix">
         <el-card class="box-card card-red">
           <router-link class="link-color" :to="{ path: '/dashboard/order' }">
-            <h1>{{infoData.orderToDelivery}}</h1>
-            <div class="text item">在售房源</div>
+            <h1>{{infoData.dealNum}}</h1>
+            <div class="text item">上月成交</div>
           </router-link>
         </el-card>
         <el-card class="box-card card-green">
           <router-link class="link-color" :to="{ path: '/dashboard/goods' }">
-            <h1>{{infoData.goodsOnsale}}</h1>
+            <h1>{{infoData.listPriceAvg}}</h1>
             <div class="text item">挂牌均价</div>
           </router-link>
         </el-card>
         <el-card class="box-card card-black">
-          <router-link class="link-color" :to="{ path: '/dashboard/user' }">
-            <h1>{{infoData.user}}</h1>
-            <div class="text item">成交记录</div>
+          <router-link class="link-color" :to="{ path: '/dashboard/user',query: { city: city,county:county,street:street } }">
+            <h1>{{infoData.dealPriceAvg}}</h1>
+            <div class="text item">成交均价</div>
           </router-link>
         </el-card>
       </div>
@@ -198,6 +198,10 @@
         ).then((res) => {
           if (res.code === 200) {
             this.chartData.rows = res.data;
+            const nowDate = new Date()
+            const dealYear = nowDate.getFullYear()
+            const dealMonth = nowDate.getMonth()
+            this.infoData = res.data.filter(d => d.dealYear === dealYear && d.dealMonth === dealMonth)[0]
           } else {
             this.$message({type: 'error', message: '查询价格数据失败！！！'});
           }
