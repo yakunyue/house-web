@@ -133,6 +133,6 @@
   }
 
   .left-box .logo img {
-    height: 60px;
+    height: 120px;
   }
 </style>

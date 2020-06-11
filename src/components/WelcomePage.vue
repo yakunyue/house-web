@@ -66,7 +66,7 @@
         </el-card>
       </div>
       <div class="main">
-        <el-tabs class="o-tab" v-model="activeName2" type="card" @tab-click="handleClick">
+        <el-tabs class="o-tab" type="card" @tab-click="handleClick">
           <el-tab-pane label="全部" name="first"></el-tab-pane>
           <el-tab-pane label="最近三年" name="second"></el-tab-pane>
           <el-tab-pane label="最近两年" name="third"></el-tab-pane>
@@ -86,6 +86,18 @@
 
   export default {
     data() {
+      this.extend = {
+        // x轴倾斜45度
+        // 'xAxis.0.axisLabel.rotate': 45,
+        // 显示具体数值
+        // series: {
+        //   label: {
+        //     normal: {
+        //       show: true
+        //     }
+        //   }
+        // }
+      }
       this.chartSettings = {
         axisSite: {right: ['dealNum']},
         xAxisType: 'time',
