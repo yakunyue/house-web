@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 export default new Router({
+  mode: 'history',
   scrollBehavior: () => ({y: 0}),
   routes: [
     {
@@ -64,7 +65,8 @@ export default new Router({
     },
     {
       path: '*',
-      redirect: '/dashboard'
+      name: '/404',
+      component: require('@/components/error-page/404')
     }
   ]
 })

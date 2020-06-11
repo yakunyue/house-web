@@ -73,7 +73,7 @@
               localStorage.setItem('userInfo', JSON.stringify({username: this.form.username}));
               console.log(JSON.stringify(res.data))
               // console.log(JSON.stringify(res.data.data.userInfo))
-              this.$router.push({name: this.targetPage});
+              this.$router.push({name: 'welcome'});
               let sUserAgent = navigator.userAgent;
 
               // todo 手机端暂时也跳转到pc端welcome
@@ -107,7 +107,7 @@
     },
     mounted() {
       // this.root = api.rootUrl;
-      this.targetPage = (this.$route.query.redirect || 'welcome').replace('/dashboard/','');
+      // this.targetPage = (this.$route.query.redirect || '/dashboard/welcome');
     }
   }
 </script>
