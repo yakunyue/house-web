@@ -114,7 +114,7 @@
 <style>
   .login {
     align-items: center;
-    background: url("../../static/images/back2.jpg") bottom;
+    background: url("../../static/images/back2.jpg");
     /*background: url("http://hiolabs.com/demo/static/images/back2.jpg");*/
     /* 以上为登录背景,可以自己更换成自己喜欢的 */
     background-size: 100%;
@@ -131,6 +131,8 @@
   .login-box {
     width: 320px;
     background: #fff;
+    /*下面的设置可以实现透明，但是跟现在的logo不搭，等找到合适的logo再改*/
+    /*background: rgba(255,255,255,0.5);*/
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
