@@ -213,7 +213,10 @@
             const nowDate = new Date()
             const dealYear = nowDate.getFullYear()
             const dealMonth = nowDate.getMonth()
-            this.infoData = res.data.filter(d => d.dealYear === dealYear && d.dealMonth === dealMonth)[0]
+            const one = res.data.filter(d => d.dealYear === dealYear && d.dealMonth === dealMonth)
+            console.log(one)
+
+            this.infoData = one.length>0?one[0]:{}
           } else {
             this.$message({type: 'error', message: '查询价格数据失败！！！'});
           }

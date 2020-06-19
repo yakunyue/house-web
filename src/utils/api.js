@@ -22,7 +22,7 @@ axios.interceptors.request.use(
 )
 
 axios.interceptors.response.use(success => {
-    console.log(success)
+    // console.log(success)
     // 后端有全局异常捕获，后端异常前端接到仍是200，错误信息错误码在data中
     if (success.status && success.status === 200 && success.data.code !== 200) {
         Message.error({message: success.data.desc})
