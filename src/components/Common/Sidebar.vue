@@ -134,5 +134,6 @@
 
   .left-box .logo img {
     height: 80px;
+    width: 80px;
   }
 </style>
