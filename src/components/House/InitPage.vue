@@ -17,14 +17,14 @@
       <el-row :gutter="20">
         <el-col :span="20">
           <div class="filter-box">
-            <el-form :inline="true" :model="filterForm" class="demo-form-inline">
-              <el-form-item label="区县名称">
-                <el-input v-model="filterForm.nickname" placeholder="区县名称"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="onSubmitFilter">查询</el-button>
-              </el-form-item>
-            </el-form>
+            <el-select v-model="city" placeholder="请选择城市" clearable @change="onSubmitFilter">
+              <el-option
+                v-for="item in cityList"
+                :key="item.value"
+                :label="item.label"
+                :value="item">
+              </el-option>
+            </el-select>
           </div>
         </el-col>
         <el-col :span="4">
@@ -43,7 +43,7 @@
           <el-table-column prop="dealNum" label="成交数量"></el-table-column>
           <el-table-column prop="dealHistoryLastUpdateTime" label="成交最后更新时间"></el-table-column>
           <el-table-column label="操作" width="240">
-            <template scope="scope">
+            <template slot-scope="scope">
               <div v-if="!scope.row.isPressing">
                 <el-button plain size="small" type="danger"
                            @click="handleUpdateCommunity(scope.$index, scope.row)">刷新小区
@@ -84,29 +84,38 @@
         pageSize: 10,
         pageSizes: [10, 20, 30, 40, 50, 100],
         total: 0,
-        filterForm: {
-          name: ''
-        },
         tableData: [],
-        username: ''
+        username: '',
+        city:'',
+        cityList: []
       }
     },
     methods: {
+      getCityList() {
+        getRequest("/county/queryInitCityList", {}).then(res => {
+          if (res.code == 200) {
+            this.cityList = res.data.map(item => ({
+              value: item.code,
+              label: item.name,
+            }));
+          } else {
+            this.$message({type: 'error', message: '获取城市列表失败!'});
+          }
+        })
+      },
       handleAdd() {
         this.$router.push({name: 'init_add', query: {}})
-      },
-      submitNick(index, row) {
       },
       handlePageChange(val) {
         this.pageIndex = val;
         //保存到localStorage
-        localStorage.setItem('userPageIndex', this.pageIndex)
+        // localStorage.setItem('userPageIndex', this.pageIndex)
         this.getList()
       },
       sizeChange(val) {
         this.pageSize = val
         //保存到localStorage
-        localStorage.setItem('userPageSize', this.pageSize)
+        // localStorage.setItem('userPageSize', this.pageSize)
         this.getList()
       },
       handleRowDetail(index, row) {
@@ -145,7 +154,6 @@
         });
       },
       onSubmitFilter() {
-        this.page = 1
         this.getList()
       },
       getList() {
@@ -153,31 +161,32 @@
           {
             pageIndex: this.pageIndex,
             pageSize: this.pageSize,
-            nickname: this.filterForm.nickname
+            cityName: this.city.label
           }
         ).then((res) => {
           if (res.code === 200) {
             this.tableData = res.data.records;
             this.total = res.data.total;
           } else {
-            this.$message({type: 'error', message: '获取用户列表失败!'});
+            this.$message({type: 'error', message: '获取已初始化区县列表失败!'});
           }
         })
       }
     },
     components: {},
     mounted() {
-      let userPageIndex = localStorage.getItem('userPageIndex');
-      let userPageSize = localStorage.getItem('userPageSize');
-      if (userPageIndex == null) {
-        userPageIndex = 1;
-      }
-      if (userPageSize == null) {
-        userPageSize = 10;
-      }
-      this.pageIndex = Number(userPageIndex);
-      this.pageSize = Number(userPageSize);
+      // let userPageIndex = localStorage.getItem('userPageIndex');
+      // let userPageSize = localStorage.getItem('userPageSize');
+      // if (userPageIndex == null) {
+      //   userPageIndex = 1;
+      // }
+      // if (userPageSize == null) {
+      //   userPageSize = 10;
+      // }
+      // this.pageIndex = Number(userPageIndex);
+      // this.pageSize = Number(userPageSize);
       this.getList();
+      this.getCityList();
     }
   }
 
