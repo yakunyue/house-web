@@ -10,6 +10,11 @@
         <span>房价概览</span>
       </el-menu-item>
 
+      <el-menu-item index="/dashboard/heatMap">
+        <i class="fa fa-tachometer"></i>
+        <span>热力地图</span>
+      </el-menu-item>
+
       <el-submenu index="house">
         <template slot="title">
           <i class="fa fa-large fa-wrench"></i>

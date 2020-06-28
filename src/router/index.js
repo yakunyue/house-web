@@ -17,6 +17,11 @@ export default new Router({
           component: require('@/components/WelcomePage')
         },
         {
+          path: 'heatMap',
+          name: 'heatMap',
+          component: require('@/components/HeatMapPage')
+        },
+        {
           path: 'init',
           name: 'init',
           component: require('@/components/House/InitPage')
