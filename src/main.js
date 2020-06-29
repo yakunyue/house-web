@@ -11,6 +11,7 @@ import './utils/filter_utils.js'
 // echarts
 import VeLine from 'v-charts/lib/line.common';
 import VeMap from 'v-charts/lib/map.common';
+import HeatMap from 'v-charts/lib/heatmap.common';
 
 
 // vue-quill-edit
@@ -21,7 +22,7 @@ import 'quill/dist/quill.bubble.css'
 Vue.use(ElementUI)
 Vue.use(VueAxios, Axios);
 
-[VeLine, VeMap].forEach(comp => {
+[VeLine, VeMap, HeatMap].forEach(comp => {
   Vue.component(comp.name, comp);
 });
 
