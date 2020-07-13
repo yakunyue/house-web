@@ -35,7 +35,7 @@
         root: '',
         form: {
           username: 'xhh',
-          password: '123',
+          password: '123789',
         },
         rules: {
           username: [
