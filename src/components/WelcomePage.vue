@@ -103,6 +103,7 @@
         xAxisType: 'time',
         yAxisType: ['KMB', 'normal'],
         yAxisName: ['元/平米', '成交套数'],
+        scale: [true, false],
         labelMap: {
           'listPriceAvg': '挂牌均价',
           'dealPriceAvg': '成交均价',
