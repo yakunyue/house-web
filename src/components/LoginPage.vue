@@ -34,8 +34,8 @@
       return {
         root: '',
         form: {
-          username: 'xhh',
-          password: '123789',
+          username: '',
+          password: '',
         },
         rules: {
           username: [
