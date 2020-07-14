@@ -35,12 +35,16 @@ export default new Router({
           path: 'priceChange',
           name: 'priceChange',
           component: require('@/components/House/PriceChangePage')
-        }
-        ,
+        },
         {
           path: 'community',
           name: 'community',
           component: require('@/components/House/CommunityPage')
+        },
+        {
+          path: 'zzStat',
+          name: 'zzStat',
+          component: require('@/components/House/ZZStatPage')
         }
 
       ]

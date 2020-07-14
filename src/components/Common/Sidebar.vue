@@ -32,6 +32,10 @@
           <i class="fa fa-circle"></i>
           <span>小区列表</span>
         </el-menu-item>
+        <el-menu-item index="/dashboard/zzStat">
+          <i class="fa fa-circle"></i>
+          <span>郑州统计</span>
+        </el-menu-item>
       </el-submenu>
 
       <el-menu-item @click="logout">

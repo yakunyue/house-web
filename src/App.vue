@@ -67,13 +67,13 @@
     text-align: right;
   }
 
-  .form-table-box .el-input__inner {
-    max-width: 240px;
-  }
+  /*.form-table-box .el-input__inner {*/
+  /*  max-width: 240px;*/
+  /*}*/
 
-  .form-table-box .el-textarea {
-    width: 400px;
-  }
+  /*.form-table-box .el-textarea {*/
+  /*  width: 400px;*/
+  /*}*/
 
   .router-fade-enter-active,
   .router-fade-leave-active {
@@ -85,9 +85,9 @@
     opacity: 0;
   }
 
-  .form-table-box .el-form {
-    margin-top: 40px;
-  }
+  /*.form-table-box .el-form {*/
+  /*  margin-top: 40px;*/
+  /*}*/
 
   .form-tip{
     color: #888;
