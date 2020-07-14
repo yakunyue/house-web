@@ -33,6 +33,15 @@
             :value="item">
           </el-option>
         </el-select>
+
+        <el-select v-model="countys" placeholder="请选择对比区域" multiple collapse-tags @change="handleChange3">
+          <el-option
+            v-for="item in countyList"
+            :key="item.value"
+            :label="item.label"
+            :value="item">
+          </el-option>
+        </el-select>
       </div>
       <div class="form-table-box">
         <ve-line :data="chartData2" :settings="secondChartSettings"></ve-line>
@@ -94,7 +103,7 @@
           rows: []
         },
         chartData2: {
-          columns: ["yearMonth", "eq", "gc", "hj", "js", "zy", "zd", "gx", "jk"],
+          columns: ["yearMonth",  "zd", "gx"],
           rows: []
         },
         countyCode: 'zd',
@@ -115,6 +124,10 @@
           {value: 'DEAL_AVG_PRICE', label: '新房成交均价'},
           {value: 'SECOND_COUNT', label: '二手房成交数'},
           {value: 'SECOND_AVG_PRICE', label: '二手房成交均价'},
+        ],
+        countys: [
+          {value: 'zd', label: '郑东新区'},
+          {value: 'gx', label: '高新区'},
         ]
       }
     },
@@ -126,6 +139,16 @@
       handleChange2(value) {
         this.dataType = value
         this.getList2()
+      },
+      handleChange3(value) {
+        let arr = ["yearMonth"];
+        value.forEach(item=>{
+          arr.push(item.value)
+        })
+
+        this.chartData2.columns = arr
+        console.log('----------')
+        console.log(this.chartData2)
       },
       getList() {
         getRequest('/chart/zzHouseDealStat', {countyCode: this.countyCode}).then((res) => {
