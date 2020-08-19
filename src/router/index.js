@@ -31,11 +31,11 @@ export default new Router({
           name: 'init_add',
           component: require('@/components/House/InitAddPage')
         },
-        {
-          path: 'priceChange',
-          name: 'priceChange',
-          component: require('@/components/House/PriceChangePage')
-        },
+        // {
+        //   path: 'priceChange',
+        //   name: 'priceChange',
+        //   component: require('@/components/House/PriceChangePage')
+        // },
         {
           path: 'community',
           name: 'community',
