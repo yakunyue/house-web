@@ -42,6 +42,18 @@
               </el-option>
             </el-select>
           </el-col>
+
+          <el-col :span="4">
+            <el-select v-model="community" filterable remote placeholder="请选择小区"
+                       @change="onCommunityChange" :remote-method="getCommunityList" :loading="loading" :loading-text="loadingText">
+              <el-option
+                v-for="item in communityList"
+                :key="item.value"
+                :label="item.label"
+                :value="item">
+              </el-option>
+            </el-select>
+          </el-col>
         </el-row>
       </div>
 
@@ -118,11 +130,15 @@
         cityList: [],
         countyList: [],
         streetList: [],
-        city: {label: '北京'},
+        communityList: [],
+        city: {label: '北京', value: 'bj'},
         county: {},
         street: {},
+        community: {},
         infoData: {},
-        fromDate: '2008-01-01'
+        fromDate: '2008-01-01',
+        loading: false,
+        loadingText: '加载中'
       }
     },
     methods: {
@@ -170,18 +186,46 @@
           this.$message({type: 'error', message: '请先选择区县!'});
         }
       },
+      getCommunityList(keyword) {
+        this.loading = true
+        getRequest("community//fuzzy/list", {
+          cityCode: this.city.value,
+          countyCode: this.county.value,
+          streetCode: this.street.value,
+          communityName: keyword
+        }).then(res => {
+          if (res.code == 200) {
+            this.communityList = res.data.map(item => ({
+              value: item.lianjiaId,
+              label: item.name,
+            }));
+          } else {
+            this.$message({type: 'error', message: '获取小区列表失败!'});
+          }
+        })
+        this.loading = false
+      },
       onCityChange(city) {
         this.getCountyList(city.value)
         this.county = {}
         this.street = {}
+        this.community = {}
+        this.communityList = []
         this.getChartData()
       },
       onCountyChange(county) {
         this.getStreetList(county.value)
         this.street = {}
+        this.community = {}
+        this.communityList = []
         this.getChartData()
       },
       onStreetChange(street) {
+        this.community = {}
+        this.communityList = []
+        this.getChartData()
+      },
+      onCommunityChange(community) {
         this.getChartData()
       },
       handleClick(tab) {
@@ -206,6 +250,7 @@
             cityCode: this.city.value,
             countyCode: this.county.value,
             streetCode: this.street.value,
+            communityCode: this.community.value,
             fromDate: this.fromDate
           }
         ).then((res) => {
@@ -217,7 +262,7 @@
             const one = res.data.filter(d => d.dealYear === dealYear && d.dealMonth === dealMonth)
             console.log(one)
 
-            this.infoData = one.length>0?one[0]:{}
+            this.infoData = one.length > 0 ? one[0] : {}
           } else {
             this.$message({type: 'error', message: '查询价格数据失败！！！'});
           }
