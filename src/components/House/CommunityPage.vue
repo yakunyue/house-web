@@ -43,6 +43,19 @@
                   </el-option>
                 </el-select>
               </el-col>
+
+              <el-col :span="4">
+                <el-select v-model="community" filterable remote placeholder="请选择小区"
+                           @change="onCommunityChange" :remote-method="getCommunityList">
+                  <el-option
+                    v-for="item in communityList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item">
+                  </el-option>
+                </el-select>
+              </el-col>
+
             </el-row>
           </div>
         </el-col>
@@ -96,10 +109,12 @@
         cityList: [],
         countyList: [],
         streetList: [],
+        communityList: [],
         city: {},
         county: {},
         street: {},
         tableData: [],
+        community: {},
         username: ''
       }
     },
@@ -148,18 +163,46 @@
           this.$message({type: 'error', message: '请先选择区县!'});
         }
       },
+      getCommunityList(keyword) {
+        this.loading = true
+        getRequest("community//fuzzy/list", {
+          cityCode: this.city.value,
+          countyCode: this.county.value,
+          streetCode: this.street.value,
+          communityName: keyword
+        }).then(res => {
+          if (res.code == 200) {
+            this.communityList = res.data.map(item => ({
+              value: item.lianjiaId,
+              label: item.name,
+            }));
+          } else {
+            this.$message({type: 'error', message: '获取小区列表失败!'});
+          }
+        })
+        this.loading = false
+      },
       onCityChange(city) {
         this.getCountyList(city.value)
         this.county = {}
         this.street = {}
+        this.community = {}
+        this.communityList = []
         this.getList()
       },
       onCountyChange(county) {
         this.getStreetList(county.value)
         this.street = {}
+        this.community = {}
+        this.communityList = []
         this.getList()
       },
       onStreetChange(street) {
+        this.community = {}
+        this.communityList = []
+        this.getList()
+      },
+      onCommunityChange(community) {
         this.getList()
       },
       handlePageChange(val) {
@@ -207,6 +250,7 @@
             pageSize: this.pageSize,
             cityCode: this.city.value,
             countyCode: this.county.value,
+            communityName: this.community.label,
             streetCode: this.street.value
           }
         ).then((res) => {
