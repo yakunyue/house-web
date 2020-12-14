@@ -30,7 +30,7 @@
       </div>
 
       <div>
-        <ve-heatmap :data="chartData" :settings="chartSettings"></ve-heatmap>
+        <ve-heatmap :data="chartData" :settings="chartSettings" height="85vh"></ve-heatmap>
       </div>
 
     </div>
@@ -50,7 +50,7 @@
             zoom: 12,
             roam: true
           },
-          type: 'bmap'
+          type: 'bmap',
         },
         chartData: {
           columns: ['lat', 'lng'],
