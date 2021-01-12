@@ -14,7 +14,7 @@ export default {
       keyStr += chars.charAt(Math.floor(Math.random() * maxPos));
     }
     console.log("生成aesKye：",keyStr)
-    return "sx6FcGH5xc2y8sW6Np2YHAsAAKFDkEGk";
+    return keyStr;
   },
 
   //aes加密
@@ -25,7 +25,7 @@ export default {
     if (typeof data == "string") {
       console.log("typeof：string")
       dataStr = CryptoJS.enc.Utf8.parse(data);
-      encrypted = CryptoJS.AES.encrypt(dataStr, key, {
+      encrypted = CryptoJS.AES.encrypt(dataStr, CryptoJS.enc.Utf8.parse(key), {//这是一个大坑，utf8字符串的密钥必须转换城一个WordArray对象才会被当成密码，否则会被当成生成密码的口令
         mode: CryptoJS.mode.ECB,
         padding: CryptoJS.pad.Pkcs7       //todo 不确定java端是否支持pkcs7，先试试
       });
@@ -34,20 +34,26 @@ export default {
       //对象格式的转成json字符串
       dataStr = JSON.stringify(data);
       console.log("aes加密前：",dataStr)
-      encrypted = CryptoJS.AES.encrypt(dataStr, key, {
+      encrypted = CryptoJS.AES.encrypt(dataStr, CryptoJS.enc.Utf8.parse(key), {
         mode: CryptoJS.mode.ECB,
         padding: CryptoJS.pad.Pkcs7
       });
     }
-    console.log("ase加密后：",encrypted.toString())
-    return encrypted.toString();//base64结果
-    //return encrypted.ciphertext.toString();   // 二进制结果
+    console.log("ase加密后,encrypted.key：",encrypted.key.toString())
+    // console.log("ase加密后,encrypted.iv：",encrypted.iv.toString())
+    // console.log("ase加密后,encrypted.salt：",encrypted.salt.toString())
+    console.log("ase加密后,encrypted.ciphertext：",encrypted.ciphertext.toString())
+    console.log("ase加密后,encrypted.tostring()：",encrypted.toString())
+    //这里有个坑，加密结果是个对象，里面有很多属性。。。
+    let encryptedHexStr = CryptoJS.enc.Hex.parse(encrypted.ciphertext.toString());
+    console.log("传给后端：",CryptoJS.enc.Base64.stringify(encryptedHexStr))
+    return CryptoJS.enc.Base64.stringify(encryptedHexStr);//
   },
 
   // aes解密
   decrypt(encrypted, key) {
     console.log("ase解密前：",encrypted)
-    let decrypt = CryptoJS.AES.decrypt(encrypted, key, {
+    let decrypt = CryptoJS.AES.decrypt(encrypted, CryptoJS.enc.Utf8.parse(key), {
       mode: CryptoJS.mode.ECB,
       padding: CryptoJS.pad.Pkcs7
     });
