@@ -59,7 +59,7 @@
     </div>
 </template>
 <script scoped>
-    import api from '@/config/api';
+    // import api from '@/config/api';
 
     export default {
         data() {

@@ -14,42 +14,47 @@ export default {
       keyStr += chars.charAt(Math.floor(Math.random() * maxPos));
     }
     console.log("生成aesKye：",keyStr)
-    return keyStr;
+    return "sx6FcGH5xc2y8sW6Np2YHAsAAKFDkEGk";
   },
 
   //aes加密
   encrypt(data, key) {
     console.log("aes加密前：",data)
     let encrypted = "";
+    let dataStr = '';
     if (typeof data == "string") {
-      let dataSrc = CryptoJS.enc.Utf8.parse(data);
-      encrypted = CryptoJS.AES.encrypt(dataSrc, key, {
+      console.log("typeof：string")
+      dataStr = CryptoJS.enc.Utf8.parse(data);
+      encrypted = CryptoJS.AES.encrypt(dataStr, key, {
         mode: CryptoJS.mode.ECB,
         padding: CryptoJS.pad.Pkcs7       //todo 不确定java端是否支持pkcs7，先试试
       });
     } else if (typeof data == "object") {
+      console.log("typeof：object")
       //对象格式的转成json字符串
-      let data = JSON.stringify(data);
-      let dataSrc = CryptoJS.enc.Utf8.parse(data);
-      encrypted = CryptoJS.AES.encrypt(dataSrc, key, {
-        mode: CryptoJS.mode.CBC,
+      dataStr = JSON.stringify(data);
+      console.log("aes加密前：",dataStr)
+      encrypted = CryptoJS.AES.encrypt(dataStr, key, {
+        mode: CryptoJS.mode.ECB,
         padding: CryptoJS.pad.Pkcs7
       });
     }
-    console.log("ase加密后：",encrypted.ciphertext)
-    return encrypted.ciphertext.toString();
+    console.log("ase加密后：",encrypted.toString())
+    return encrypted.toString();//base64结果
+    //return encrypted.ciphertext.toString();   // 二进制结果
   },
 
   // aes解密
   decrypt(encrypted, key) {
-    const encryptedHexStr = CryptoJS.enc.Hex.parse(encrypted);
-    const srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr);
-    const decrypt = CryptoJS.AES.decrypt(srcs, key, {
-      mode: CryptoJS.mode.CBC,
+    console.log("ase解密前：",encrypted)
+    let decrypt = CryptoJS.AES.decrypt(encrypted, key, {
+      mode: CryptoJS.mode.ECB,
       padding: CryptoJS.pad.Pkcs7
     });
-    const decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
-    return decryptedStr.toString();
+    console.log(decrypt.toString(CryptoJS.enc.Utf8))
+    let decryptedStr = JSON.parse(decrypt.toString(CryptoJS.enc.Utf8));
+    console.log("ase解密后：",decryptedStr)
+    return decryptedStr;
   },
 
   sign(aesKey, encryptData, timestamp, nonce, params) {

@@ -26,7 +26,7 @@
 </template>
 <script>
   // import api from '@/config/api';
-  import {formPost} from '../utils/api';
+  import {jsonPost} from '../utils/api';
 
 
   export default {
@@ -59,7 +59,7 @@
           }
           this.loading = true;
           let root = this.root;
-          formPost(root + '/login', {
+          jsonPost(root + '/login', {
             username: this.form.username,
             password: this.form.password
           }).then((res) => {

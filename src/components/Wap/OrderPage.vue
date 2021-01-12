@@ -168,7 +168,7 @@
     </div>
 </template>
 <script>
-    import api from '@/config/api';
+    // import api from '@/config/api';
     import Clipboard from 'clipboard';
 
     export default {
@@ -245,7 +245,7 @@
                     console.log('复制成功');
                     clipboard.destroy();
                     e.clearSelection();
-                   
+
                 });
                 clipboard.on('error', function (e) {
                     console.error('Action:', e.action);

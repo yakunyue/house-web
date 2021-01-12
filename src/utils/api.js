@@ -24,6 +24,8 @@ axios.interceptors.request.use(
     let aesKey = aesUtil.getAesKey()
     //加密data
     let encryptData = aesUtil.encrypt(config.data,aesKey)
+    //todo jiemi
+    aesUtil.decrypt(encryptData,aesKey)
     config.data = encryptData
     //签名
     let timestamp = new Date().getTime()
