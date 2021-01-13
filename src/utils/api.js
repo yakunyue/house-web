@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import router from '../router'
 import aesUtil from "./aesUtil";
 import rasUtil from "./rasUtil";
+import da from "element-ui/src/locale/lang/da";
 
 
 // 请求超时时间
@@ -24,8 +25,7 @@ axios.interceptors.request.use(
     let aesKey = aesUtil.getAesKey()
     //加密data
     let encryptData = aesUtil.encrypt(config.data,aesKey)
-    //todo jiemi
-    aesUtil.decrypt(encryptData,aesKey)
+    //替换明文body
     config.data = encryptData
     //签名
     let timestamp = new Date().getTime()
@@ -33,17 +33,29 @@ axios.interceptors.request.use(
     let sign = aesUtil.sign(aesKey,encryptData,timestamp,nonce,config.params)
     //加密aesKey
     let encryptedAesKey = rasUtil.encrypt(aesKey)
-    //
+    //设置请求头
     config.headers['X_EAK'] = encryptedAesKey
     config.headers['X_SIGN'] = sign
     config.headers['X_TIMESTAMP'] = timestamp
     config.headers['X_NONCE'] = nonce
+    config.transformResponse = [function (dataStr) {
+      //此回调先于response拦截器执行，在这里解密简直完美
+      let data = JSON.parse(dataStr)
+      if (data.encrypted) {
+        let decrypt = aesUtil.decrypt(data.data, aesKey)
+        data.data = decrypt
+      }
+      return data;
+    }]
     return config
+  },error => {
+    // 对请求错误做些什么
+    return Promise.reject(error);
   }
 )
 
 axios.interceptors.response.use(success => {
-  // console.log(success)
+  // console.log("拦截到了response",success)
   // 后端有全局异常捕获，后端异常前端接到仍是200，错误信息错误码在data中
   if (success.status && success.status === 200 && success.data.code !== 200) {
     Message.error({message: success.data.desc})
