@@ -6,11 +6,11 @@ const publicKey = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMbFUgBEsev1lURtNFgfr0jtz4IDJ
 export default {
 
   encrypt(word) {
-    console.log("rsa加密前：",word)
+    // console.log("rsa加密前：",word)
     let encrypt = new JSEncrypt();
     encrypt.setPublicKey(publicKey);
     let encrypted = encrypt.encrypt(word)
-    console.log("rsa加密后：",encrypted)
+    // console.log("rsa加密后：",encrypted)
     return encrypted;
   },
 }
