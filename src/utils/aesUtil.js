@@ -42,6 +42,7 @@ export default {
         padding: CryptoJS.pad.Pkcs7
       });
     }
+    // console.log("ase加密后,encrypted：",encrypted)
     // console.log("ase加密后,encrypted.key：",encrypted.key.toString())
     // console.log("ase加密后,encrypted.iv：",encrypted.iv.toString())
     // console.log("ase加密后,encrypted.salt：",encrypted.salt.toString())
