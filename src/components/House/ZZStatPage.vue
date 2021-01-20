@@ -147,8 +147,6 @@
         })
 
         this.chartData2.columns = arr
-        console.log('----------')
-        console.log(this.chartData2)
       },
       getList() {
         getRequest('/chart/zzHouseDealStat', {countyCode: this.countyCode}).then((res) => {

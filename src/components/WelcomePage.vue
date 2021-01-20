@@ -257,8 +257,12 @@
           if (res.code === 200) {
             this.chartData.rows = res.data;
             const nowDate = new Date()
-            const dealYear = nowDate.getFullYear()
-            const dealMonth = nowDate.getMonth()
+            let dealYear = nowDate.getFullYear()
+            let dealMonth = nowDate.getMonth()
+            if (dealMonth === 0) {
+              dealYear = dealYear - 1
+              dealMonth = 12
+            }
             const one = res.data.filter(d => d.dealYear === dealYear && d.dealMonth === dealMonth)
             console.log(one)
 
