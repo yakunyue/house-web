@@ -261,7 +261,7 @@
             let dealMonth = nowDate.getMonth()
             if (dealMonth === 0) {
               dealYear = dealYear - 1
-              dealMonth = 12
+              dealMonth = 11
             }
             const one = res.data.filter(d => d.dealYear === dealYear && d.dealMonth === dealMonth)
             console.log(one)
