@@ -127,7 +127,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          jsonPost('/auth/admin/updateCommunity' + '?id=' + row.id, {}).then((res) => {
+          jsonPost('/auth/admin/updateCommunity' ,{},{"id":row.id}).then((res) => {
             if (res.code === 200) {
               this.$message({type: 'success', message: '初始化进程已启动!'});
               this.getList();
@@ -143,7 +143,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          jsonPost('/auth/admin/updateDealHistory' + '?id=' + row.id, {}).then((res) => {
+          jsonPost('/auth/admin/updateDealHistory' ,{},{"id":row.id}).then((res) => {
             if (res.code === 200) {
               this.$message({type: 'success', message: '处理进程已启动!'});
               this.getList();

@@ -86,11 +86,12 @@ axios.interceptors.response.use(success => {
 
 let base = '';
 
-export const jsonPost = (url, params) => {
+export const jsonPost = (url, body, params) => {
   return axios({
     method: 'post',
     url: `${base}${url}`,
-    data: params,
+    params: params,
+    data: body
   });
 }
 
