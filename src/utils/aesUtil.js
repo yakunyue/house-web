@@ -42,12 +42,6 @@ export default {
         padding: CryptoJS.pad.Pkcs7
       });
     }
-    // console.log("ase加密后,encrypted：",encrypted)
-    // console.log("ase加密后,encrypted.key：",encrypted.key.toString())
-    // console.log("ase加密后,encrypted.iv：",encrypted.iv.toString())
-    // console.log("ase加密后,encrypted.salt：",encrypted.salt.toString())
-    // console.log("ase加密后,encrypted.ciphertext：",encrypted.ciphertext.toString())
-    // console.log("ase加密后,encrypted.tostring()：",encrypted.toString())
     //这里有个坑，加密结果是个对象，里面有很多属性。。。
     let encryptedHexStr = CryptoJS.enc.Hex.parse(encrypted.ciphertext.toString());
     // console.log("传给后端：",CryptoJS.enc.Base64.stringify(encryptedHexStr))
