@@ -16,9 +16,9 @@
 
 体验密码：123789
 
-前端项目地址：https://github.com/yueyakun2017/house-web
+前端项目地址：https://github.com/yakunyue/house-web
 
-后端项目尚未开放，如果你有兴趣可以私信我，或者加我的微信：eXlrYW5keGho（需base64解码）
+后端项目尚未开放，如果你有兴趣可以私信我，或者加我的微信：eGlhb2h1aWh1aWFuZHl5aw==（需base64解码）
 
 ## TODO
 
