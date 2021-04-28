@@ -54,7 +54,7 @@
                 resolve(nodes);
               })
             } else if(level===1) {
-              getRequest("county/queryCityList", {provinceId: value}).then(res => {
+              getRequest("/house/county/queryCityList", {provinceId: value}).then(res => {
                 if (res.code == 200) {
                   nodes = res.data.map(item => ({
                     value: item.id,
@@ -65,7 +65,7 @@
                 resolve(nodes);
               })
             }else if(level===2){
-              getRequest("county/queryCountyList", {cityId: value}).then(res => {
+              getRequest("/house/county/queryCountyList", {cityId: value}).then(res => {
                 if (res.code == 200) {
                   nodes = res.data.map(item => ({
                     value: item.id,
@@ -83,7 +83,7 @@
     },
     methods: {
       handleAdd() {
-        jsonPost('/auth/admin/addInitRecord',
+        jsonPost('/house/auth/admin/addInitRecord',
           {
             countyId: this.countyId
           }

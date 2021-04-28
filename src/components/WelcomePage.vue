@@ -143,7 +143,7 @@
     },
     methods: {
       getCityList() {
-        getRequest("/county/queryInitCityList", {}).then(res => {
+        getRequest("/house/county/queryInitCityList", {}).then(res => {
           if (res.code == 200) {
             this.cityList = res.data.map(item => ({
               value: item.code,
@@ -156,7 +156,7 @@
       },
       getCountyList(value) {
         if (value) {
-          getRequest("county/queryInitCountyList", {cityCode: value}).then(res => {
+          getRequest("/house/county/queryInitCountyList", {cityCode: value}).then(res => {
             if (res.code == 200) {
               this.countyList = res.data.map(item => ({
                 value: item.code,
@@ -172,7 +172,7 @@
       },
       getStreetList(value) {
         if (value) {
-          getRequest("county/queryInitStreetList", {countyCode: value}).then(res => {
+          getRequest("/house/county/queryInitStreetList", {countyCode: value}).then(res => {
             if (res.code == 200) {
               this.streetList = res.data.map(item => ({
                 value: item.code,
@@ -188,7 +188,7 @@
       },
       getCommunityList(keyword) {
         this.loading = true
-        getRequest("community//fuzzy/list", {
+        getRequest("/house/community//fuzzy/list", {
           cityCode: this.city.value,
           countyCode: this.county.value,
           streetCode: this.street.value,
@@ -245,7 +245,7 @@
         this.getChartData()
       },
       getChartData() {
-        getRequest('/chart/priceChange',
+        getRequest('/house/chart/priceChange',
           {
             cityCode: this.city.value,
             countyCode: this.county.value,

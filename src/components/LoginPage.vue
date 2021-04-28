@@ -59,7 +59,7 @@
           }
           this.loading = true;
           let root = this.root;
-          jsonPost(root + '/login', {
+          jsonPost(root + '/auth/login', {
             username: this.form.username,
             password: this.form.password
           }).then((res) => {

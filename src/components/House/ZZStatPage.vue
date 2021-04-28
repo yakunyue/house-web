@@ -149,7 +149,7 @@
         this.chartData2.columns = arr
       },
       getList() {
-        getRequest('/chart/zzHouseDealStat', {countyCode: this.countyCode}).then((res) => {
+        getRequest('/house/chart/zzHouseDealStat', {countyCode: this.countyCode}).then((res) => {
           if (res.code === 200) {
             this.chartData.rows = res.data;
           } else {
@@ -158,7 +158,7 @@
         })
       },
       getList2() {
-        getRequest('/chart/zzCountyStat', {code: this.dataType.value}).then((res) => {
+        getRequest('/house/chart/zzCountyStat', {code: this.dataType.value}).then((res) => {
           if (res.code === 200) {
             this.chartData2.rows = res.data;
           } else {

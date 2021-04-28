@@ -65,7 +65,7 @@
     },
     methods: {
       getCityList() {
-        getRequest("/county/queryInitCityList", {}).then(res => {
+        getRequest("/house/county/queryInitCityList", {}).then(res => {
           if (res.code === 200) {
             this.cityList = res.data.map(item => ({
               value: item.code,
@@ -87,7 +87,7 @@
         this.getDealPosition()
       },
       getDealPosition() {
-        getRequest('/chart/dealPosition',
+        getRequest('/house/chart/dealPosition',
           {
             cityCode: this.city.value,
             fromDate: this.fromDate,
