@@ -47,7 +47,7 @@ axios.interceptors.request.use(
           data.data = decrypt
         }
       } else {
-        dataStr = dataStr.substr(1,dataStr.length-2)
+        // dataStr = dataStr.substr(1,dataStr.length-2)
         data = aesUtil.decrypt(dataStr, aesKey)
       }
       return data;
