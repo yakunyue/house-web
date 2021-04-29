@@ -28,15 +28,11 @@ Vue.use(VueAxios, Axios);
 
 router.beforeEach((to, from, next) => {
 
-  let token = sessionStorage.getItem('token') || '';
+  console.log("from:"+from.path+",to"+to.path)
 
-  //配置接口信息
-  // Axios.defaults.baseURL = 'http://www.地址.com:8360/admin/';
-  // Axios.defaults.headers.common['X-Nideshop-Token'] = token;
-
-  if (!token && to.name !== 'login') {
+  if (to.path === '/') {
     next({
-      path: '/login',
+      path: '/welcome',
       query: { redirect: to.fullPath }
     })
   } else {

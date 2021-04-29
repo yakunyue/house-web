@@ -120,7 +120,7 @@
     },
     methods: {
       getCityList() {
-        getRequest("/house/county/queryInitCityList", {}).then(res => {
+        getRequest("/county/queryInitCityList", {}).then(res => {
           if (res.code == 200) {
             this.cityList = res.data.map(item => ({
               value: item.code,
@@ -133,7 +133,7 @@
       },
       getCountyList(value) {
         if (value) {
-          getRequest("/house/county/queryInitCountyList", {cityCode: value}).then(res => {
+          getRequest("/county/queryInitCountyList", {cityCode: value}).then(res => {
             if (res.code == 200) {
               this.countyList = res.data.map(item => ({
                 value: item.code,
@@ -149,7 +149,7 @@
       },
       getStreetList(value) {
         if (value) {
-          getRequest("/house/county/queryInitStreetList", {countyCode: value}).then(res => {
+          getRequest("/county/queryInitStreetList", {countyCode: value}).then(res => {
             if (res.code == 200) {
               this.streetList = res.data.map(item => ({
                 value: item.code,
@@ -165,7 +165,7 @@
       },
       getCommunityList(keyword) {
         this.loading = true
-        getRequest("/house/community/fuzzy/list", {
+        getRequest("/community/fuzzy/list", {
           cityCode: this.city.value,
           countyCode: this.county.value,
           streetCode: this.street.value,
@@ -224,7 +224,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          jsonPost('/house/auth/user/watchCommunity', {
+          jsonPost('/auth/user/watchCommunity', {
             userId: 2,//todo 暂时写死
             lianjiaCommunityId: row.lianjiaId,
             cityCode: row.cityCode,
@@ -244,7 +244,7 @@
         this.getList()
       },
       getList() {
-        getRequest('/house/community/fuzzy/page',
+        getRequest('/community/fuzzy/page',
           {
             pageIndex: this.pageIndex,
             pageSize: this.pageSize,

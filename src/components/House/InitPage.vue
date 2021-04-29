@@ -92,7 +92,7 @@
     },
     methods: {
       getCityList() {
-        getRequest("/house/county/queryInitCityList", {}).then(res => {
+        getRequest("/county/queryInitCityList", {}).then(res => {
           if (res.code == 200) {
             this.cityList = res.data.map(item => ({
               value: item.code,
@@ -127,7 +127,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          jsonPost('/house/auth/admin/updateCommunity' ,{},{"id":row.id}).then((res) => {
+          jsonPost('/auth/admin/updateCommunity' ,{},{"id":row.id}).then((res) => {
             if (res.code === 200) {
               this.$message({type: 'success', message: '初始化进程已启动!'});
               this.getList();
@@ -143,7 +143,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          jsonPost('/house/auth/admin/updateDealHistory' ,{},{"id":row.id}).then((res) => {
+          jsonPost('/auth/admin/updateDealHistory' ,{},{"id":row.id}).then((res) => {
             if (res.code === 200) {
               this.$message({type: 'success', message: '处理进程已启动!'});
               this.getList();
@@ -157,7 +157,7 @@
         this.getList()
       },
       getList() {
-        getRequest('/house/auth/user/queryInitPage',
+        getRequest('/auth/user/queryInitPage',
           {
             pageIndex: this.pageIndex,
             pageSize: this.pageSize,

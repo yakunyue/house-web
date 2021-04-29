@@ -57,7 +57,7 @@
             const {level, value} = node;
             let nodes = [];
             if (level === 0) {
-              getRequest("/house/county/queryInitCityList", {}).then(res => {
+              getRequest("/county/queryInitCityList", {}).then(res => {
                 if (res.code == 200) {
                   nodes = res.data.map(item => ({
                     value: item.code,
@@ -68,7 +68,7 @@
                 resolve(nodes);
               })
             } else if (level === 1) {
-              getRequest("/house/county/queryInitCountyList", {cityCode: value}).then(res => {
+              getRequest("/county/queryInitCountyList", {cityCode: value}).then(res => {
                 if (res.code == 200) {
                   nodes = res.data.map(item => ({
                     value: item.code,
@@ -79,7 +79,7 @@
                 resolve(nodes);
               })
             } else if (level === 2) {
-              getRequest("/house/county/queryInitStreetList", {countyCode: value}).then(res => {
+              getRequest("/county/queryInitStreetList", {countyCode: value}).then(res => {
                 if (res.code == 200) {
                   nodes = res.data.map(item => ({
                     value: item.code,
@@ -114,7 +114,7 @@
         }
       },
       getList() {
-        getRequest('/house/chart/priceChange',
+        getRequest('/chart/priceChange',
           {
             cityCode:this.cityCode,
             countyCode: this.countyCode,

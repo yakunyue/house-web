@@ -5,12 +5,12 @@
     </div>
     <el-menu class="sidebar" :unique-opened="true" :default-active="currentPagePath" @open="handleOpen"
              :router="true" @close="handleClose">
-      <el-menu-item index="/dashboard/welcome">
+      <el-menu-item index="/welcome">
         <i class="fa fa-tachometer"></i>
         <span>房价概览</span>
       </el-menu-item>
 
-      <el-menu-item index="/dashboard/heatMap">
+      <el-menu-item index="/heatMap">
         <i class="fa fa-tachometer"></i>
         <span>热力地图</span>
       </el-menu-item>
@@ -20,28 +20,28 @@
           <i class="fa fa-large fa-wrench"></i>
           <span>小链家</span>
         </template>
-        <el-menu-item index="/dashboard/init">
+        <el-menu-item index="/init">
           <i class="fa fa-circle"></i>
           <span>初始化列表</span>
         </el-menu-item>
-<!--        <el-menu-item index="/dashboard/priceChange">-->
+<!--        <el-menu-item index="/priceChange">-->
 <!--          <i class="fa fa-circle"></i>-->
 <!--          <span>价格曲线</span>-->
 <!--        </el-menu-item>-->
-        <el-menu-item index="/dashboard/community">
+        <el-menu-item index="/community">
           <i class="fa fa-circle"></i>
           <span>小区列表</span>
         </el-menu-item>
-        <el-menu-item index="/dashboard/zzStat">
+        <el-menu-item index="/zzStat">
           <i class="fa fa-circle"></i>
           <span>郑州统计</span>
         </el-menu-item>
       </el-submenu>
 
-      <el-menu-item @click="logout">
-        <i class="fa fa-large fa-sign-out"></i>
-        <span>退出</span>
-      </el-menu-item>
+<!--      <el-menu-item @click="logout">-->
+<!--        <i class="fa fa-large fa-sign-out"></i>-->
+<!--        <span>退出</span>-->
+<!--      </el-menu-item>-->
     </el-menu>
 
   </div>
@@ -55,7 +55,7 @@
     data() {
       return {
         loading2: loading2,
-        currentPagePath: '/dashboard',
+        currentPagePath: '/',
         loginInfo: null,
       }
     },
@@ -65,17 +65,6 @@
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
-      },
-      logout() {
-        this.$confirm('是否要退出?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          sessionStorage.clear()
-          localStorage.clear();
-          this.$router.replace({name: 'login'});
-        });
       }
     },
     mounted() {

@@ -7,7 +7,7 @@ export default new Router({
   scrollBehavior: () => ({y: 0}),
   routes: [
     {
-      path: '/dashboard',
+      path: '/',
       name: 'dashboard',
       component: require('@/components/DashboardPage'),
       children: [
