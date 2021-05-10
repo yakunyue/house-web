@@ -27,51 +27,25 @@ export default new Router({
           component: require('@/components/House/InitPage')
         },
         {
-          path: 'init/add',
+          path: 'init_add',
           name: 'init_add',
           component: require('@/components/House/InitAddPage')
         },
-        // {
-        //   path: 'priceChange',
-        //   name: 'priceChange',
-        //   component: require('@/components/House/PriceChangePage')
-        // },
+
         {
           path: 'community',
           name: 'community',
           component: require('@/components/House/CommunityPage')
         },
         {
-          path: 'zzStat',
-          name: 'zzStat',
-          component: require('@/components/House/ZZStatPage')
+          path: 'priceChange',
+          name: 'priceChange',
+          component: require('@/components/House/PriceChangePage')
         }
 
       ]
     },
-    {
-      path: '/wap',
-      name: 'wap',
-      component: require('@/components/WapPage'),
-      children: [
-        {
-          path: '/',
-          name: 'goods',
-          component: require('@/components/Wap/GoodsPage')
-        },
-        {
-          path: 'order',
-          name: 'order',
-          component: require('@/components/Wap/OrderPage')
-        },
 
-      ]
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: require('@/components/LoginPage')
-    },
     {
       path: '*',
       name: '/404',

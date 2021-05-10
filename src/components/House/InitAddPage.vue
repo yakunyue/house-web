@@ -43,7 +43,7 @@
             const {level, value} = node;
             let nodes = [];
             if (level === 0) {
-              getRequest("county/queryProvinceList", {}).then(res => {
+              getRequest("/county/queryProvinceList", {}).then(res => {
                 if (res.code == 200) {
                   nodes = res.data.map(item => ({
                     value: item.id,

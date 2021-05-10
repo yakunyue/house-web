@@ -104,7 +104,7 @@
         })
       },
       handleAdd() {
-        this.$router.push({name: 'init_add', query: {}})
+        this.$router.push({path: '/init_add'})
       },
       handlePageChange(val) {
         this.pageIndex = val;

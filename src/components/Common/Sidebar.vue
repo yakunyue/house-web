@@ -24,10 +24,10 @@
           <i class="fa fa-circle"></i>
           <span>初始化列表</span>
         </el-menu-item>
-<!--        <el-menu-item index="/priceChange">-->
-<!--          <i class="fa fa-circle"></i>-->
-<!--          <span>价格曲线</span>-->
-<!--        </el-menu-item>-->
+        <el-menu-item index="/priceChange">
+          <i class="fa fa-circle"></i>
+          <span>价格曲线</span>
+        </el-menu-item>
         <el-menu-item index="/community">
           <i class="fa fa-circle"></i>
           <span>小区列表</span>
