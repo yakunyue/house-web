@@ -10,11 +10,21 @@
 
 我开发它的目的是为计划买房的人提供更直观的价格参考。
 
-体验网址：[小链家](http://house.fengxiuge.top)
+体验网址：[小链家](https://house.fengxiuge.top)
 
 体验账号：xhh
 
 体验密码：123789
+
+### branch 
+
+master：该分支是最原始的、前后分离项目的分支。
+
+service-unify：该分支是专门给前后不分离的项目用的分支，其对应的后端代码仓库地址为：[house-viewer](https://github.com/yakunyue/house-viewer)
+
+cloud-branch：该分支对应的后端是基于 Spring Gateway 网关构建的一个微服务系统。
+
+这三个分支只在 api 加解密和签名方式上有些差别，页面内容基本相同。
 
 前端项目地址：https://github.com/yakunyue/house-web
 
