@@ -32,6 +32,10 @@ cloud-branch：该分支对应的后端是基于 Spring Gateway 网关构建的�
 
 如果你有兴趣一起开发可以私信我，或者加我的微信：eGlhb2h1aWh1aWFuZHl5aw==（需base64解码）
 
+## 部署教程
+
+这里有详细的[单体服务部署教程](https://github.com/yakunyue/house-viewer)
+
 ## TODO
 
 * 登录页背景图片自适应
